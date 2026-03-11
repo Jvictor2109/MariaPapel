@@ -75,14 +75,14 @@ session_start();
 														if(isset($_SESSION['dados'])){
 															$dados = $_SESSION['dados'];
 															$i = 0;
-															foreach($dados as $artigo){?>
+															foreach($dados as $id => $artigo){?>
 															<tr>
-																<td><?= $artigo['artigo'] ?></td>
+																<td data-id="<?= $id ?>"><?= $artigo['artigo'] ?></td>
 																<td><?= $artigo['descricao'] ?></td>
 																<td><?= $artigo['preco'] ?>€</td>
 																<td data-pvpbruto="<?= $artigo['pvp'] ?>" id="pvp_sIva_<?= $i ?>"><?= $artigo['pvp_sIva'] ?>€</td>
 																<td><?= $artigo['ean'] ?></td>
-																<td><?= $artigo['qtd'] ?></td>
+																<td><?= $artigo['stock'] ?></td>
 																<td>81</td>
 																<td>
 																	<select name="iva_select" id="iva_select" onchange="alterarIva(this, <?= $i ?>)">
@@ -137,8 +137,3 @@ session_start();
 			<script src="assets/js/expedicao_vasp.js"></script>
 	</body>
 </html>
-<?php 
-if($_SERVER['REQUEST_METHOD'] == "GET"){
-	unset($_SESSION['dados']);
-}
-?>

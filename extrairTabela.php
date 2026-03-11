@@ -39,7 +39,7 @@ exit();
 
 function extrairDados($tabela){
     $dados = [];
-
+    $i = 1;
     // Percorre cada linha da tabela
     foreach($tabela as $linha){
         // Dados que não mudam
@@ -49,6 +49,7 @@ function extrairDados($tabela){
         $inventario_existencia = "Mercadorias";
         $un_medida = "Unidade";
         $fornecedor = 81;
+        $ean = "";
 
         // verifica cada elemento da linha e extrai os dados necessários
         foreach($linha as $elemento){
@@ -86,13 +87,14 @@ function extrairDados($tabela){
             }
         }
 
-        $dados[] = ['artigo'=>$artigo, 
+        $dados["{$i}"] = ['artigo'=>$artigo,
+                    'iva'=> $iva,
                     'descricao'=>$descricao, 
                     'preco'=>$preco, 
                     'pvp'=>$pvp,
                     'pvp_sIva'=>$pvp_sIva, 
                     'ean'=>$ean, 
-                    'qtd'=>$quantidade,
+                    'stock'=>$quantidade,
                     'tem_stock'=>$tem_stock,
                     'categoria'=>$categoria,
                     'tipo_artigo'=>$tipo_artigo,
@@ -100,6 +102,7 @@ function extrairDados($tabela){
                     'un_medida'=>$un_medida,
                     'fornecedor'=>$fornecedor
                 ];
+        $i++;
     }
 
     return $dados;
