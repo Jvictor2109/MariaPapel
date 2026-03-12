@@ -1,6 +1,15 @@
 <?php
 // Verificação de sessão em todas as páginas protegidas
 session_start();
+
+// Verifica em pra qual a request GET veio: primeiro acesso ou downlad
+if(!isset($_SESSION['upload_feito'])){
+	unset($_SESSION['dados']);
+} 
+else{
+	unset($_SESSION['upload_feito']);
+}
+
 ?>
 
 <!DOCTYPE HTML>
@@ -103,7 +112,7 @@ session_start();
 												</table>
 											</div>
 
-											<input type="button" value="Exportar CSV" class="secondary" onclick="exportarCSV()"/>
+											<input type="button" value="Exportar Excel" class="secondary" onclick="exportarExcel()"/>
 
 										</div>
 									</div>

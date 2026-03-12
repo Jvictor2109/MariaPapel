@@ -33,52 +33,61 @@ $dados = extrairDados($tabela);
 
 // Retorna a tabela pela sessão
 $_SESSION['dados'] = $dados;
+$_SESSION['upload_feito'] = true;
 header("Location: expedicao_vasp.php");
 exit();
 
 
 function extrairDados($tabela){
     $dados = [];
-    $i = 1;
+    $i = 1; // Identificador unico de cada item
     // Percorre cada linha da tabela
     foreach($tabela as $linha){
         // Dados que não mudam
+        $iva = 0.06;
         $tem_stock = 1;
         $categoria = "VASP";
         $tipo_artigo = "Produto";
         $inventario_existencia = "Mercadorias";
         $un_medida = "Unidade";
         $fornecedor = 81;
+
+        // Inicializacao de variaveis
         $ean = "";
+        $artigo = "";
+        $preco = 0;
+        $descricao = "";
+        $pvp = 0;
+        $quantidade = 0;
+
 
         // verifica cada elemento da linha e extrai os dados necessários
         foreach($linha as $elemento){
-            $x = $elemento['x'];
-            var_dump($x);
+            $x = floatval($elemento['x']);
             switch($x){
-                case "36.626":
+                case $x > 30 && $x < 40:
                     $artigo = $elemento['conteudo'];
                     break;
                 
-                case "81.338":
+                case $x == 81.338:
                     $descricao = $elemento['conteudo'];
                     break;
 
-                case "265.587":
+                case $x > 260 && $x < 266:
                     $preco = floatval(str_replace(",", ".", $elemento['conteudo']));
                     break;
                 
-                case "310.083":
-                    $iva = 0.06; // Iva padrão que poderá ser alterado depois
+                case $x > 305 && $x < 311:
                     $pvp = floatval(str_replace(",", ".", $elemento['conteudo']));
                     $pvp_sIva = number_format($pvp/(1+$iva), 2);
+                    error_log(print_r($pvp_sIva, true));
                     break;
 
-                case "424.347":
+                case $x == 424.347:
                     $ean = $elemento['conteudo'];
                     break;
                 
-                case "549.771":
+                case $x == 549.771:
                     $quantidade = (int) $elemento['conteudo'];
                     break;
                 
@@ -86,7 +95,7 @@ function extrairDados($tabela){
                     break; 
             }
         }
-
+        
         $dados["{$i}"] = ['artigo'=>$artigo,
                     'iva'=> $iva,
                     'descricao'=>$descricao, 
@@ -138,9 +147,8 @@ function extrairTabela($pageData, $limitesTabela){
             }
                     
             $tabela[$y][] = ['x'=>$x, 'conteudo'=>$conteudo];
-
             }
-        $ultimo_y = $y;
+            $ultimo_y = $y;
     }
 
     // Elimina título e cabeçalho da tabela

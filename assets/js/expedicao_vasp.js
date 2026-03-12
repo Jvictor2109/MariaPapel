@@ -1,4 +1,4 @@
-function exportarCSV(){
+function exportarExcel(){
     let tabela = document.getElementById('tabela');
     let alteracoes = {}
 
@@ -17,15 +17,15 @@ function exportarCSV(){
         
     }
     
-    // Envia request pro exportador em  csv, enviando os dados
-    fetch('exportarCSV.php', {
+    // Envia request pro exportador (agora excel) enviando os dados
+    fetch('exportarExcel.php', {
         method: "POST",
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify(alteracoes)
     }).then(response => response.json())
       .then(data => {
             if(data['sucesso']==true){
-                window.location.href = 'exportarCSV.php';
+                window.location.href = 'exportarExcel.php';
             }
         });
 }
