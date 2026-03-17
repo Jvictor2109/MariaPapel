@@ -1,6 +1,11 @@
 {
     "require": {
-        "phpoffice/phpspreadsheet": "^5.5",
-        "smalot/pdfparser": "^2.12"
+        "smalot/pdfparser": "^2.12",
+        "shuchkin/simplexlsxgen": "^1.5"
+    },
+    "config":{
+        "platform": {
+            "php": "8.0.30"
+        }
     }
 }

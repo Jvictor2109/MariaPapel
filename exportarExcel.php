@@ -54,24 +54,19 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 }
 
 function exportarXLSX($dados){
-    $spreadsheet = new Spreadsheet();
-    $sheet = $spreadsheet->getActiveSheet();
-
+    // Definição das colunas da tabela
     $colunas = ["Título", "Iva", "Referência", "Ean",
                 "Preço de venda", "Tem stock", "Stock",
                 "Categoria", "Tipo de artigo", "Inventário existências",
                 "Unidade medida", "Fornecedor", "Preço custo"];
 
-    $sheet->fromArray($colunas, null, 'A1');
+    // Transforma array associativo de dados em array simples
+    $dados = array_values($dados);
+    
+    // Junta os 2 arrays, colocando a coluna como primeiro item
+   array_unshift($dados,$colunas);
 
-    $linha = 2;
-    foreach($dados as $row){
-        $sheet->fromArray(array_values($row), null, 'A' . $linha);
-        $linha++;
-    }
-
-    ob_start();
-    $writer = new Xlsx($spreadsheet);
-    $writer->save('php://output');
-    return ob_get_clean();
+    // Cria o arquivo xlsx e retorna em formato string
+    $xlsx = Shuchkin\SimpleXLSXGen::fromArray($dados);
+    return (string) $xlsx;
 }
