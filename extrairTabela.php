@@ -74,20 +74,20 @@ function extrairDados($tabela){
                     break;
 
                 case $x > 260 && $x < 266:
-                    $preco = floatval(str_replace(",", ".", $elemento['conteudo']));
+                    $preco_com_iva = floatval(str_replace(",", ".", $elemento['conteudo']));
+                    $preco = number_format($preco_com_iva/(1+$iva),2);
                     break;
                 
                 case $x > 305 && $x < 311:
                     $pvp = floatval(str_replace(",", ".", $elemento['conteudo']));
                     $pvp_sIva = number_format($pvp/(1+$iva), 2);
-                    error_log(print_r($pvp_sIva, true));
                     break;
 
                 case $x == 424.347:
                     $ean = $elemento['conteudo'];
                     break;
                 
-                case $x == 549.771:
+                case $x > 540 && $x < 555:
                     $quantidade = (int) $elemento['conteudo'];
                     break;
                 
@@ -99,7 +99,8 @@ function extrairDados($tabela){
         $dados["{$i}"] = ['artigo'=>$artigo,
                     'iva'=> $iva,
                     'descricao'=>$descricao, 
-                    'preco'=>$preco, 
+                    'preco'=>$preco,
+                    'preco_com_iva' => $preco_com_iva, 
                     'pvp'=>$pvp,
                     'pvp_sIva'=>$pvp_sIva, 
                     'ean'=>$ean, 
@@ -175,6 +176,4 @@ function limitesTabela($pageData){
 
     return $limitesTabela;
 }
-
-
 ?>

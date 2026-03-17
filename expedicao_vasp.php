@@ -88,7 +88,7 @@ else{
 															<tr>
 																<td data-id="<?= $id ?>"><?= $artigo['artigo'] ?></td>
 																<td><?= $artigo['descricao'] ?></td>
-																<td><?= $artigo['preco'] ?>€</td>
+																<td data-precocomiva="<?= $artigo['preco_com_iva'] ?>" id="preco_com_iva_<?= $i ?>"><?= $artigo['preco'] ?>€</td>
 																<td data-pvpbruto="<?= $artigo['pvp'] ?>" id="pvp_sIva_<?= $i ?>"><?= $artigo['pvp_sIva'] ?>€</td>
 																<td><?= $artigo['ean'] ?></td>
 																<td><?= $artigo['stock'] ?></td>
