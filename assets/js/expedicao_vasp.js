@@ -34,6 +34,9 @@ function alterarIva(select, preco){
     let iva = parseFloat(select.value);
     let preco_sIva = document.getElementById('pvp_sIva_'+preco);
     let preco_bruto = parseFloat(preco_sIva.dataset.pvpbruto);
+    let preco_custo_com_iva = document.getElementById('preco_com_iva_'+preco);
+    let preco_custo = parseFloat(preco_custo_com_iva.dataset.precocomiva);
     
+    preco_custo_com_iva.innerText = (preco_custo/(1+iva)).toFixed(2)+"€";
     preco_sIva.innerText = (preco_bruto/(1+iva)).toFixed(2)+"€";    
 }

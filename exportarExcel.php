@@ -17,8 +17,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         }
 
         $pvp = floatval($dados[$id]['pvp']);
+        $preco_com_iva = floatval($dados[$id]['preco_com_iva']);
         $iva = floatval($info['iva']);
         $pvp_sIva = number_format($pvp/(1+$iva), 2);
+        $preco_sIva = number_format($preco_com_iva/(1+$iva), 2);
 
         $dadosProcessados[] = [
             "titulo"=> $dados[$id]['descricao'],
@@ -33,7 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             "inventario_existencia"=>$dados[$id]['inventario_existencia'],
             "un_medida"=>$dados[$id]['un_medida'],
             "fornecedor"=>$dados[$id]['fornecedor'],
-            "preco_custo"=>$dados[$id]['preco']
+            "preco_custo"=>$preco_sIva
         ];
     }
 
