@@ -3,8 +3,6 @@ session_start();
 
 require 'vendor/autoload.php';
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     $alteracoes = json_decode(file_get_contents('php://input'), true);
