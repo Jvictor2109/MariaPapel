@@ -2499,3 +2499,107 @@ tr:hover {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* Modal Reposicao */
+.modal-overlay {
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 2.5em;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    margin: auto;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-close {
+    position: absolute;
+    right: 1em;
+    top: 0.5em;
+    cursor: pointer;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #f56a6a;
+}
+
+.modal-content label {
+    margin: 0 0 0.35em 0;
+}
+
+.modal-content input[type="text"],
+.modal-content select {
+    margin: 0 0 1em 0;
+}
+
+.modal-content input[type="text"]:last-child,
+.modal-content select:last-child {
+    margin-bottom: 0;
+}
+
+/* Classes de status de urgência */
+.nao-urgente {
+    color: #f5c32c; /* Texto Amarelo / Castanho Escuro */
+    font-weight: bold;
+}
+
+.urgente {
+    color: #f96902; /* Texto Laranja Escuro */
+    font-weight: bold;
+}
+.muito-urgente {
+    color: #b80617; /* Texto Vermelho Escuro */
+    font-weight: bold;
+}
+
+/* Botões de Ação - Reposição */
+button.btn-pedido, .button.btn-pedido {
+    box-shadow: inset 0 0 0 2px #f98e02;
+    color: #f98e02 !important;
+}
+
+button.btn-pedido:hover, .button.btn-pedido:hover {
+    background-color: rgba(249, 142, 2, 0.05);
+}
+
+button.btn-pedido:active, .button.btn-pedido:active {
+    background-color: rgba(249, 142, 2, 0.15);
+}
+
+button.btn-concluido, .button.btn-concluido {
+    box-shadow: inset 0 0 0 2px #28a745;
+    color: #28a745 !important;
+}
+
+button.btn-concluido:hover, .button.btn-concluido:hover {
+    background-color: rgba(40, 167, 69, 0.05);
+}
+
+button.btn-concluido:active, .button.btn-concluido:active {
+    background-color: rgba(40, 167, 69, 0.15);
+}
+
+.badge-concluido {
+    display: inline-block;
+    padding: 0.3em 1em;
+    border-radius: 4px;
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    font-weight: bold;
+    font-size: 0.85em;
+    border: 1px solid #28a745;
+}

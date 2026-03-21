@@ -32,6 +32,7 @@
     <ul>
         <li><a href="index.php">Início</a></li>
             <li><a href="expedicao_vasp.php">Expedições VASP</a></li>
+            <li><a href="reposicao.php">Reposição de itens</a></li>
                 <?php
                     if (isset($_SESSION['e_administrador']) && $_SESSION['e_administrador'] === 1) {
                         echo '<li>
