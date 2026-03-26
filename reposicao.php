@@ -17,17 +17,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 				echo json_encode(['resultado' => 'erro', 'msg' => 'Não foi possível adicionar à base de dados']);
 			}
 			exit();
-			
+
 		case "listar":
 			echo json_encode(mostrarDados($conn));
 			exit();
-		
+
 		case "atualizar":
-			if(attItem($conn, $request)){
+			if (attItem($conn, $request)) {
 				echo json_encode(['resultado' => 'sucesso', 'msg' => 'Item atualizado com sucesso!']);
 				exit();
-			}
-			else{
+			} else {
 				echo json_encode(['resultado' => 'erro', 'msg' => 'Erro ao atualizar pedido']);
 				exit();
 			}
@@ -92,43 +91,53 @@ function addItem($conn, $request)
 	}
 }
 
-
-function attItem($conn, $request){
+function attItem($conn, $request)
+{
 	$estado = $request['estado'];
 	$item_id = intval($request['id']);
 	$data = date("y-m-d");
+	$user_id = $_SESSION['user_id'];
+	$utilizador = "";
 
-	if($estado == "pedido"){
+	$sql = "SELECT nome_utilizador FROM utilizador WHERE id_utilizador = ?";
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param("i", $user_id);
+	$stmt->execute();
+	$stmt->bind_result($utilizador);
+	$stmt->fetch();
+	$stmt->close();
+
+
+
+	if ($estado == "pedido") {
 
 		$pedido = 1;
 		$sql = "UPDATE reposicao
-				SET pedido = ?, data_pedido = ?
+				SET pedido = ?, data_pedido = ?, pedido_por = ?
 				WHERE item_id = ?";
 
 		$stmt = $conn->prepare($sql);
-		$stmt->bind_param("isi", $pedido, $data, $item_id);
-	}
-	else if($estado == "concluido"){
+		$stmt->bind_param("issi", $pedido, $data, $utilizador, $item_id);
+	} else if ($estado == "concluido") {
 		$concluido = 1;
 		$sql = "UPDATE reposicao
-				SET concluido = ?, data_conclusao = ?
+				SET concluido = ?, data_conclusao = ?, concluido_por = ?
 				WHERE item_id = ?";
-	
+
 		$stmt = $conn->prepare($sql);
-		$stmt->bind_param("isi", $concluido, $data, $item_id);
+		$stmt->bind_param("issi", $concluido, $data, $utilizador, $item_id);
 	}
 
-	if($stmt->execute()){
+	if ($stmt->execute()) {
 		return true;
-	}
-	else{
+	} else {
 		return false;
 	}
-
 }
 
 
-function filtrar(){
+function filtrarDados()
+{
 	// TODO: Função de filtrar
 }
 
@@ -236,8 +245,24 @@ function filtrar(){
 							<h5 id="msg" style="margin: 0; line-height: 1;"></h5>
 						</div>
 
-						<!-- Tabela que mostra os itens -->
+
 						<h2 style="margin-top: 1.5em; margin-bottom: 1.5em;">Itens em falta</h2>
+
+						<!-- Barra de seleção de filtros
+						<div class="divFiltros">
+							<h3>Filtrar por: </h3>
+							
+							<div class="filtros">
+								<select name="filtroUrgencia">
+									<option value=""> </option>
+									<option value="muito urgente">Muito urgente</option>
+									<option value="urgente">Urgente</option>
+									<option value="nao urgente">Não Urgente</option>
+								</select>
+							</div>
+						</div> -->
+
+						<!-- Tabela que mostra os itens -->
 						<div class="table-wrapper" style="max-height: 400px; overflow-y: auto;">
 							<table>
 								<thead>

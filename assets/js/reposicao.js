@@ -1,3 +1,6 @@
+// Variável que vai guardar todos os itens da tabela
+dados = {};
+
 document.addEventListener('DOMContentLoaded', function () {
 
     // Carrega a tabela assim que a pagina abre
@@ -100,6 +103,7 @@ function addPedido() {
         });
 }
 
+
 function mostrarTabela(){
     // Busca os dados no servidor
     fetch('reposicao.php',{
@@ -110,13 +114,15 @@ function mostrarTabela(){
         })
     }).then(response => response.json())
     .then(data => {
+        dados = data;
+
         // Gera cada linha da tabela dinamicamente
         let tbody = document.querySelector('tbody');
 
         // Limpa o tbody antes de reescrever
         tbody.innerHTML = '';
 
-        data.forEach(element => {
+        dados.forEach(element => {
             let linha = document.createElement('tr');
 
             // Cria cada célula da linha
@@ -151,7 +157,7 @@ function mostrarTabela(){
             }
             linha.appendChild(urgencia);
 
-            // TODO: Cria os botões de ação: Mostra o botão correspondente ao estado atual do pedido
+            // Botões de ação: Mostra o botão correspondente ao estado atual do pedido
             // Se o item já tiver estado de concluído, mostra somente um texto
             let acoes = document.createElement('td');
             acoes.style.textAlign = 'center';
@@ -188,16 +194,17 @@ function mostrarTabela(){
             btnInfo.addEventListener('click', function(e) {
                 e.preventDefault();
 
-                // TODO: adicionar informações do artigo
-                // TODO: Criar "pedido_por" e "concluido_por" na BD e fazer as alterações necessárias
                 let infoModal = document.getElementById('info-content');
 
-                infoModal.innerHTML = `
-                <p><strong>CLiente: </strong> ${element.nome_cliente || '-'}</p>
-                <p><strong>Nº Telemóvel: </strong> ${element.telefone_cliente || '-'}</p>
-                <p><strong>Data Criação: </strong> ${element.data_criacao}</p>
-                <p><strong>Data Pedido: </strong> ${element.data_pedido || '-'}</p>
-                <p><strong>Data Concluído: </strong> ${element.data_conclusao || '-'}</p>
+                infoModal.innerHTML = `  
+                    <span><strong>CLiente: </strong> ${element.nome_cliente || '-'}</span>
+                    <p><strong>Nº Telemóvel: </strong> ${element.telefone_cliente || '-'}</p>
+                    <span><strong>Data da criação do artigo: </strong> ${element.data_criacao}</span>
+                    <p><strong>Artigo criado por: </strong> ${element.criado_por}</p>
+                    <span><strong>Data marcado como "Pedido": </strong> ${element.data_pedido || '-'}</span>
+                    <p><strong>Marcado como "Pedido" por: </strong> ${element.pedido_por || '-'}</p>
+                    <span><strong>Data marcado como "Concluído": </strong> ${element.data_conclusao || '-'}</span>
+                    <p><strong>Marcado como "Concluído" por: </strong> ${element.concluido_por || '-'}</p>
                 `;
 
                 document.getElementById('modal-info').style.display = 'flex';
