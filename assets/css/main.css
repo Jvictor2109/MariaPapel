@@ -4003,12 +4003,45 @@ button.btn-concluido:active,
   border: 1px solid #28a745;
 }
 
-.divFiltros{
-  display: flex;
-  flex-direction: column;
+.divFiltros {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 1.5em;
 }
 
-.filtross{
-  display: flex;
-  flex-direction: column;
+.divFiltros h3 {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.filtros {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filtros select,
+.filtros input[type="date"] {
+    display: inline-block !important; 
+    width: auto !important;           
+    height: 2.75em;
+    margin: 0 !important;
+}
+.filtros input[type="date"] {
+    border: none;
+}
+
+.filtros label {
+    margin: 0;
+    align-self: center;
+}
+
+.filtro-grupo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }

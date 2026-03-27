@@ -4,6 +4,15 @@ session_start();
 
 require_once('db_connect.php');
 
+
+// Apaga as linhas com mais de 1 ano da BD
+$stmt = $conn->prepare("DELETE FROM reposicao WHERE data_criacao < NOW() - INTERVAL 1 YEAR");
+$stmt->execute();
+if($stmt->affected_rows == -1){
+	echo "Erro ao apagar linhas da base de dados: " . $stmt->error;
+}
+
+
 // Verifica se está recebendo um formulário 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 	$request = json_decode(file_get_contents('php://input'), true);
@@ -31,8 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 				exit();
 			}
 	}
-
-	// TODO: lidar com filtros da tabela e atualizações de pedido
 }
 
 // Funções
@@ -136,15 +143,6 @@ function attItem($conn, $request)
 }
 
 
-function filtrarDados()
-{
-	// TODO: Função de filtrar
-}
-
-
-
-
-
 ?>
 
 <!DOCTYPE HTML>
@@ -241,26 +239,43 @@ function filtrarDados()
 						</div>
 
 						<div style="display: flex; align-items: center; gap: 20px; margin-bottom: 2em;">
-							<a href="#" id="btn-add-pedido" class="button primary" style="margin-bottom: 0;">Adicionar pedido</a>
+							<a href="#" id="btn-add-pedido" class="button primary" style="margin-bottom: 0;">Adicionar item em falta</a>
 							<h5 id="msg" style="margin: 0; line-height: 1;"></h5>
 						</div>
 
-
-						<h2 style="margin-top: 1.5em; margin-bottom: 1.5em;">Itens em falta</h2>
-
-						<!-- Barra de seleção de filtros
+						<!-- Barra de seleção de filtros -->
 						<div class="divFiltros">
 							<h3>Filtrar por: </h3>
-							
+
 							<div class="filtros">
-								<select name="filtroUrgencia">
-									<option value=""> </option>
-									<option value="muito urgente">Muito urgente</option>
-									<option value="urgente">Urgente</option>
-									<option value="nao urgente">Não Urgente</option>
-								</select>
-							</div>
-						</div> -->
+					<div class="filtro-grupo">
+						<label for="filtroUrgencia">Urgência:</label>
+						<select id="filtroUrgencia">
+							<option value="">Todas</option>
+							<option value="muito urgente">Muito urgente</option>
+							<option value="urgente">Urgente</option>
+							<option value="nao urgente">Não Urgente</option>
+						</select>
+					</div>
+
+					<div class="filtro-grupo">
+						<label for="filtroTipo">Tipo:</label>
+						<select id="filtroTipo">
+							<option value="">Todos</option>
+							<option value="papelaria">Papelaria</option>
+							<option value="tinteiros">Tinteiros/Tonners</option>
+							<option value="livros">Livros</option>
+						</select>
+					</div>
+
+					<div class="filtro-grupo">
+						<label for="filtroData">Data:</label>
+						<input type="date" id="filtroData">
+					</div>
+
+					<button type="submit" id="btnFiltrar">Filtrar</button>
+				</div>
+						</div>
 
 						<!-- Tabela que mostra os itens -->
 						<div class="table-wrapper" style="max-height: 400px; overflow-y: auto;">
